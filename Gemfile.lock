@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/josephholsten/middleman-gh-pages.git
+  revision: ba53204cc06398b045c215271cd5abe5d3e1aff1
+  branch: support-master-branch
+  specs:
+    middleman-gh-pages (0.0.3)
+      rake (> 0.9.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -93,6 +101,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rake (10.4.2)
     rb-fsevent (0.9.6)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -123,10 +132,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  middleman (~> 3.3.12)
-  middleman-livereload (~> 3.1.0)
-  tzinfo-data
-  wdm (~> 0.1.0)
+  middleman
+  middleman-gh-pages!
+  middleman-livereload
 
 BUNDLED WITH
    1.11.2
