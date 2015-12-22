@@ -1,20 +1,18 @@
 ---
-pageable: true
-per_page: 12
+pageable: false
 ---
 
-%h1
-  Articles tagged '#{tagname}'
-- if paginate && num_pages > 1
-  %p
-    Page #{page_number} of #{num_pages}
-  - if prev_page
-    %p= link_to 'Previous page', prev_page
-%ul
-  - page_articles.each_with_index do |article, i|
-    %li
-      = link_to article.title, article
-      %span= article.date.strftime('%b %e')
-- if paginate
-  - if next_page
-    %p= link_to 'Next page', next_page
+= partial :header, locals: { title: "Articles tagged #{tagname}", subtitle: nil }
+
+.container
+  .row
+    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+      - page_articles.each_with_index do |article, i|
+        .post-preview
+          %a{:href => article.url}
+            %h2.post-title= article.title
+            - if !article.data.subtitle.nil? && (article.data.subtitle.length > 0)
+              %h3.post-subtitle= article.data.subtitle
+          %p.post-meta= article.date.strftime('%B %e, %Y')
+          = article.body
+        %hr/
