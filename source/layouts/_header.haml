@@ -9,6 +9,6 @@
       .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
         .site-heading
           %h1= title
-          - if defined?(subtitle) && (subtitle.length > 0)
+          - if !subtitle.nil? && (subtitle.length > 0)
             %hr.small/
             %span.subheading= subtitle
