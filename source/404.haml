@@ -1,0 +1,14 @@
+---
+title: '404'
+noindex: true
+---
+
+= partial :header, locals: { title: '404 😱', subtitle: 'Uh oh! Page Not Found' }
+
+.container
+  .row
+    .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+      :markdown
+        Send me an [email](mailto:#{data.social.email_address}) if you *really*
+        think that there should be something here.
+
