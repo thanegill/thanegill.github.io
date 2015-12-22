@@ -7,6 +7,18 @@ Time.zone = "America/Los_Angeles"
 
 set :haml, { :ugly => true, :format => :html5 }
 
+set :markdown_engine, :redcarpet
+set :markdown,
+    smartypants: true,
+    tables: true,
+    with_toc_data: true,
+    footnotes: true,
+    superscript: true,
+    underline: true,
+    strikethough: true,
+    no_intra_emphasis: true
+
+
 activate :blog do |blog|
   # This will add a prefix to all links, template references and source paths
   blog.prefix = "blog"
