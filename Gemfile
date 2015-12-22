@@ -4,6 +4,8 @@ gem 'middleman'
 gem 'middleman-blog'
 gem 'builder'
 gem 'redcarpet'
+gem 'less'
+gem 'therubyracer'
 
 # Live-reloading plugin
 gem 'middleman-livereload'
