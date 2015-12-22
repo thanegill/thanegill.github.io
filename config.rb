@@ -33,7 +33,7 @@ activate :blog do |blog|
 
   # Path (relative to project root) to an ERb template that will be used to
   # generate new articles from the "middleman article" command.
-  blog.new_article_template = "article_template.md.erb"
+  blog.new_article_template = "article_template.md"
 end
 
 page "/feed.xml", layout: false
