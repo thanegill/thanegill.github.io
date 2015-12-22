@@ -22,5 +22,4 @@ pageable: false
             - if !article.data.subtitle.nil? && (article.data.subtitle.length > 0)
               %h3.post-subtitle= article.data.subtitle
           %p.post-meta= article.date.strftime('%B %e, %Y')
-          = article.body
         %hr/
