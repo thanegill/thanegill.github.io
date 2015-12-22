@@ -7,6 +7,7 @@ gem 'redcarpet'
 gem 'less'
 gem 'therubyracer'
 gem 'middleman-syntax'
+gem 'middleman-protect-emails'
 
 # Live-reloading plugin
 gem 'middleman-livereload'

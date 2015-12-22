@@ -89,7 +89,7 @@ page '/feed.xml', layout: false
 ###
 
 activate :syntax
-
+activate :protect_emails
 activate :directory_indexes
 
 # Automatic image dimensions on image_tag helper
