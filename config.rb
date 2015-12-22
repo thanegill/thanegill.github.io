@@ -16,7 +16,8 @@ set :markdown,
     superscript: true,
     underline: true,
     strikethough: true,
-    no_intra_emphasis: true
+    no_intra_emphasis: true,
+    fenced_code_blocks: true
 
 
 activate :blog do |blog|
@@ -86,6 +87,8 @@ page '/feed.xml', layout: false
 ###
 # Helpers
 ###
+
+activate :syntax
 
 activate :directory_indexes
 

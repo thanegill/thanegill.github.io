@@ -6,6 +6,7 @@ gem 'builder'
 gem 'redcarpet'
 gem 'less'
 gem 'therubyracer'
+gem 'middleman-syntax'
 
 # Live-reloading plugin
 gem 'middleman-livereload'
