@@ -24,7 +24,7 @@ activate :blog do |blog|
   blog.prefix = 'blog'
 
   # Matcher for blog source files
-  blog.sources = '{year}/{month}-{day}-{title}.html'
+  blog.sources = '{year}/{month}-{day}-{title}'
   blog.default_extension = '.md'
 
   blog.permalink = '{year}/{month}/{day}/{title}.html'
