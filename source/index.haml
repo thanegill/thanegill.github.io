@@ -10,8 +10,9 @@ per_page: 10
     .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
       - page_articles.each_with_index do |article, i|
         .post-preview
-          %h2.post-title= link_to article.title, article.url
-          %h3.post-subtitle= article.data.subtitle
+          %a{:href => article.url}
+            %h2.post-title= article.title
+            %h3.post-subtitle= article.data.subtitle
           %p.post-meta= article.date.strftime('%B %e, %Y')
           = article.body
         %hr/
