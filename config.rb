@@ -28,7 +28,7 @@ activate :blog do |blog|
   blog.sources = '{year}/{month}-{day}-{title}'
   blog.default_extension = '.md'
 
-  blog.permalink = '{year}/{month}/{day}/{title}.html'
+  blog.permalink = '{year}/{month}/{day}/{title}'
   blog.layout = 'article'
 
   blog.tag_template = 'tag.html'
