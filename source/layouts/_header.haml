@@ -1,0 +1,14 @@
+- image_name = current_resource.metadata[:page]['background_image']
+- image_name ||= (background_image if defined? background_image)
+- image_name ||= data.site.default_background_image
+
+= partial :nav
+%header.intro-header{:style => "background-image: url('#{image_name}')"}
+  .container
+    .row
+      .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+        .site-heading
+          %h1= title
+          - if defined?(subtitle) && (subtitle.length > 0)
+            %hr.small/
+            %span.subheading= subtitle
