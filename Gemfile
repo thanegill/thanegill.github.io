@@ -8,6 +8,7 @@ gem 'less'
 gem 'therubyracer'
 gem 'middleman-syntax'
 gem 'middleman-protect-emails'
+gem 'middleman-twitter-oembed'
 
 # Live-reloading plugin
 gem 'middleman-livereload'

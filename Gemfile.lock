@@ -102,6 +102,8 @@ GEM
     middleman-syntax (2.1.0)
       middleman-core (>= 3.2)
       rouge (~> 1.0)
+    middleman-twitter-oembed (0.1.0)
+      middleman-core (~> 3.2)
     minitest (5.8.3)
     multi_json (1.11.2)
     padrino-helpers (0.12.5)
@@ -160,6 +162,7 @@ DEPENDENCIES
   middleman-livereload
   middleman-protect-emails
   middleman-syntax
+  middleman-twitter-oembed
   redcarpet
   therubyracer
 

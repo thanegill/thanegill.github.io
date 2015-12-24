@@ -9,6 +9,7 @@ set :haml, { :ugly => true, :format => :html5 }
 
 set :markdown_engine, :redcarpet
 set :markdown,
+    :layout_engine => :erb,
     smartypants: true,
     tables: true,
     with_toc_data: true,
@@ -91,6 +92,9 @@ page '/feed.xml', layout: false
 activate :syntax
 activate :protect_emails
 activate :directory_indexes
+activate :twitter_oembed do |tw|
+    tw.enable_convert = false
+end
 
 # Automatic image dimensions on image_tag helper
 # activate :automatic_image_sizes
