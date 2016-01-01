@@ -1,0 +1,72 @@
+---
+title: Mutable Class Initializers in Swift
+subtitle:
+date: 2015-12-22 02:40 PST
+tags:
+---
+
+How many times have you wanted mutate self in the initializer? Apparently it's
+totally possible in swift, just not an enabled feature. It's on Apples
+[radar](rdar://23224354) and Chris Lattner has acknowledged it:
+
+<%= twitter_oembed('657287462876659712') %>
+
+Submitting this as a proposal on the Swift evolution mailing list still yet to
+be done. Let me know if you'd like to help write up a proposal.
+
+As Salva Pestov [pointed
+out](https://twitter.com/slava_pestov/status/658058425398464512) to me protocol
+extensions can mutate self as they are never inherited. This this is now
+possible, though a bit ugly:
+
+```swift
+public protocol MutateSelf { }
+
+extension MutateSelf {
+    public init(mutateSelfAs object: Self) {
+        self = object
+    }
+
+    // Failable initializer, useful for objects that conform to RawRepresetable
+    public init?(mutateSelfAs object: Self?) {
+        if let object = object {
+            self = object
+        } else {
+            return nil
+        }
+    }
+}
+```
+
+This leads to cool uses that make UIKit more swifty:
+
+```swift
+// Extending NSObject becasue AnyObject cannot be extended
+extension NSObject: MutateSelf { }
+
+extension UIViewController {
+    convenience init(fromStoryboard storyboard: UIStoryboard, storyboardID id: String) {
+        self.init(mutateSelfAs: storyboard.instantiateViewControllerWithIdentifier(id))
+    }
+}
+
+class SomeViewController: UIViewController {
+    let object: SomeObject
+
+    convenience init(fromStoryboard storyboard: UIStoryboard, object: SomeObject) {
+        self.init(fromStoryboard: storyboard)
+        self.object = object
+    }
+
+    func methodThatShowsAView() {
+        let newViewController = NewViewController(fromStoryboard: self.storyboard!, object: self.object)
+        self.navigationController?.pushViewController(newViewController, animated: true)
+    }
+}
+```
+
+This also fixes my displease with dependency injection and removes the need for
+forced unwrapped optionals! 🎉 You can now just initialize your new VC passing it
+the current storyboard and push to it with your navigation controller. Much
+simpler and easier to read!
+
