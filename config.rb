@@ -53,7 +53,7 @@ activate :blog do |blog|
   blog.new_article_template = 'article_template.md'
 end
 
-page '/feed.atom', layout: false
+page '/atom.xml', layout: false
 
 ###
 # Compass
