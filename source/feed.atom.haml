@@ -1,0 +1,25 @@
+!!! XML
+%feed{'xml:lang': 'en-US', xmlns: 'http://www.w3.org/2005/Atom'}
+  %id= URI.join(data.site.url, '/')
+  %title= data.site.author
+  - if data.site.subtitle
+    %subtitle= data.site.subtitle
+  %updated= Time.now.iso8601
+  %link{rel: 'alternate', href: data.site.url}
+  %author
+    %name= data.site.author
+    %email= data.social.email_address
+
+  - blog.articles[0..20].each do |article|
+    %entry
+      %id= URI.join(data.site.url, article.url)
+      %title= article.title
+      %link{rel: 'alternate', href: URI.join(data.site.url, article.url)}
+      %updated= File.mtime(article.source_file).iso8601
+      %published= article.date.to_time.iso8601
+      %author
+        %name= data.site.author
+      - article.tags.each do |tag|
+        %category{scheme: URI.join(data.site.url, '/blog/tags/', tag), term: tag}
+      %content{type: 'html'} <![CDATA[#{article.body}]]>
+

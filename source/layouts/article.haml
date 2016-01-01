@@ -10,7 +10,7 @@
         .col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
           .post-heading
             %h1= current_article.title
-            - if !current_article.data.subtitle.nil? && (current_article.data.subtitle.length > 0)
+            - if current_article.data.subtitle
               %h2.subheading= current_article.data.subtitle
             %span.meta= current_article.date.strftime('%B %e, %Y')
   %article
