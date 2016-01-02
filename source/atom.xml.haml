@@ -6,6 +6,7 @@
     %subtitle= data.site.subtitle
   %updated= Time.now.iso8601
   %link{rel: 'alternate', href: data.site.url}
+  %link{rel: 'self', href: URI.join(data.site.url, '/atom.xml')}
   %author
     %name= data.site.author
     %email= data.social.email_address
