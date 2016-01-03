@@ -14,4 +14,4 @@ gem 'middleman-twitter-oembed'
 gem 'middleman-livereload'
 
 # Publish to github pages
-gem 'middleman-gh-pages', git: 'https://github.com/josephholsten/middleman-gh-pages.git', branch: 'support-master-branch'
+gem 'middleman-gh-pages', git: 'https://github.com/thanegill/middleman-gh-pages.git'

@@ -1,7 +1,6 @@
 GIT
-  remote: https://github.com/josephholsten/middleman-gh-pages.git
-  revision: ba53204cc06398b045c215271cd5abe5d3e1aff1
-  branch: support-master-branch
+  remote: https://github.com/thanegill/middleman-gh-pages.git
+  revision: bc119e052ef19f8f54893c754caa25b0ff0b52ab
   specs:
     middleman-gh-pages (0.0.3)
       rake (> 0.9.3)
