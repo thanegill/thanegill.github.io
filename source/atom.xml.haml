@@ -5,8 +5,8 @@
   - if data.site.subtitle
     %subtitle= data.site.subtitle
   %updated= Time.now.iso8601
-  %link{rel: 'alternate', href: data.site.url}
-  %link{rel: 'self', href: URI.join(data.site.url, '/atom.xml')}
+  %link{rel: 'alternate', href: data.site.url}/
+  %link{rel: 'self', href: URI.join(data.site.url, '/atom.xml')}/
   %author
     %name= data.site.author
     %email= data.social.email_address
@@ -15,13 +15,13 @@
     %entry
       %id= URI.join(data.site.url, article.url)
       %title= article.title
-      %link{rel: 'alternate', href: URI.join(data.site.url, article.url)}
+      %link{rel: 'alternate', href: URI.join(data.site.url, article.url)}/
       %updated= File.mtime(article.source_file).iso8601
       %published= article.date.to_time.iso8601
       %author
         %name= data.site.author
       - article.tags.each do |tag|
-        %category{scheme: URI.join(data.site.url, "/#{blog.options.prefix}/tags/", tag), term: tag}
+        %category{scheme: URI.join(data.site.url, "/#{blog.options.prefix}/tags/", tag), term: tag}/
       %content{type: 'html'}
         :cdata
           #{article.body}
