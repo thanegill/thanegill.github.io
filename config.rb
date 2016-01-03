@@ -5,11 +5,11 @@
 Time.zone = 'America/Los_Angeles'
 
 
-set :haml, {format: 'xhtml'}
+set :haml, {:format => :xhtml }
 
 set :markdown_engine, :redcarpet
 set :markdown,
-    layout_engine: 'erb',
+    :layout_engine => :erb,
     smartypants: true,
     tables: true,
     with_toc_data: true,
