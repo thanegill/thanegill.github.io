@@ -6,7 +6,7 @@ task :lint_projects do
     # for example
  end
 
-desc "Performs CI deploy if on source branch"
+desc 'Performs CI deploy if on source branch'
 task :travis do
     branch = ENV['TRAVIS_BRANCH']
     pull_request = ENV['TRAVIS_PULL_REQUEST']
@@ -23,12 +23,12 @@ task :travis do
         exit 0
     end
 
-    sh "rake deploy"
+    sh 'rake deploy'
 end
 
-desc "Builds, then publishes"
+desc 'Builds, then publishes'
 task :deploy do
-    sh "bundle exec rake publish BRANCH_NAME=master ALLOW_DIRTY=true"
+    sh 'bundle exec rake publish BRANCH_NAME=master ALLOW_DIRTY=true'
 end
 
 task :default => [:lint_projects, :travis]
