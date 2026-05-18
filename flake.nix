@@ -3,103 +3,101 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      flake-utils,
-    }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-        python = pkgs.python3;
-        jinja2content = python.pkgs.callPackage ./nix/pelican-jinja2content { };
-        html-validate = pkgs.callPackage ./nix/html-validate { };
-        pythonEnv = python.withPackages (ps: [
-          ps.pelican
-          ps.markdown
-          ps.livereload
-          jinja2content
-        ]);
+    inputs@{ self, flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "x86_64-linux"
+      ];
 
-        devScript = pkgs.writeShellApplication {
-          name = "pelican-serve";
-          runtimeInputs = [ pythonEnv ];
-          text = ''
-            exec pelican --autoreload --listen "$@"
-          '';
-        };
-      in
-      {
-        checks = {
-          html-validate =
-            pkgs.runCommand "html-validate"
-              { nativeBuildInputs = [ html-validate ]; }
-              ''
-                html-validate --config ${self}/linters/htmlvalidate.json ${self.packages.${system}.default}/**/*.html
-                touch $out
-              '';
+      perSystem =
+        { config, pkgs, ... }:
+        let
+          python = pkgs.python3;
+          jinja2content = python.pkgs.callPackage ./nix/pelican-jinja2content { };
+          html-validate = pkgs.callPackage ./nix/html-validate { };
+          pythonEnv = python.withPackages (ps: with ps; [
+            pelican
+            markdown
+            livereload
+            jinja2content
+          ]);
 
-          lychee =
-            pkgs.runCommand "lychee"
-              { nativeBuildInputs = [ pkgs.lychee ]; }
-              ''
-                lychee --config ${self}/linters/lychee.toml --root-dir ${self.packages.${system}.default} ${self.packages.${system}.default}/**/*.html
-                touch $out
-              '';
-
-          djlint = pkgs.runCommand "djlint" { nativeBuildInputs = [ pkgs.djlint ]; } ''
-            djlint --configuration ${self}/linters/djlintrc ${self}/themes/clean-blog/templates --lint
-            touch $out
-          '';
-
-          markdownlint = pkgs.runCommand "markdownlint" { nativeBuildInputs = [ pkgs.markdownlint-cli ]; } ''
-            markdownlint --config ${self}/linters/markdownlint.json ${self}/content
-            touch $out
-          '';
-        };
-
-        packages = {
-          default = pkgs.stdenv.mkDerivation {
-            name = "thanegill-github-io";
-            src = ./.;
-            nativeBuildInputs = [ pythonEnv ];
-            buildPhase = ''
-              export PYTHONPATH=$PWD:$PYTHONPATH
-              pelican content -o output -s pelicanconf.py
-            '';
-            installPhase = ''
-              cp -r output $out
+          devScript = pkgs.writeShellApplication {
+            name = "pelican-serve";
+            runtimeInputs = [ pythonEnv ];
+            text = ''
+              exec pelican --autoreload --listen "$@"
             '';
           };
-          html-validate = html-validate;
-          pelican-jinja2content = jinja2content;
-        };
 
-        apps.default = {
-          type = "app";
-          program = "${devScript}/bin/pelican-serve";
-        };
+        in
+        {
+          checks = {
+            html-validate = pkgs.runCommand "html-validate" { nativeBuildInputs = [ html-validate ]; } ''
+              html-validate --config ${self}/linters/htmlvalidate.json ${config.packages.default}/**/*.html
+              touch $out
+            '';
 
-        devShells.default = pkgs.mkShell {
-          packages = [
-            pythonEnv
-            pkgs.djlint
-            pkgs.markdownlint-cli
-            pkgs.lychee
-            html-validate
-            pkgs.stylelint
-          ];
-          shellHook = ''
-            echo "Pelican dev environment"
-            echo "  nix run             # autoreload dev server (port 8000)"
-            echo "  pelican content     # build to output/"
-          '';
+            lychee = pkgs.runCommand "lychee" { nativeBuildInputs = [ pkgs.lychee ]; } ''
+              lychee --config ${self}/linters/lychee.toml --root-dir ${config.packages.default} ${config.packages.default}/**/*.html
+              touch $out
+            '';
+
+            djlint = pkgs.runCommand "djlint" { nativeBuildInputs = [ pkgs.djlint ]; } ''
+              djlint --configuration ${self}/linters/djlintrc ${self}/themes/clean-blog/templates --lint
+              touch $out
+            '';
+
+            markdownlint = pkgs.runCommand "markdownlint" { nativeBuildInputs = [ pkgs.markdownlint-cli ]; } ''
+              markdownlint --config ${self}/linters/markdownlint.json ${self}/content
+              touch $out
+            '';
+          };
+
+          packages = {
+            default = pkgs.stdenv.mkDerivation {
+              name = "thanegill-github-io";
+              src = ./.;
+              nativeBuildInputs = [ pythonEnv ];
+              buildPhase = ''
+                export PYTHONPATH=$PWD:$PYTHONPATH
+                pelican content -o output -s pelicanconf.py
+              '';
+              installPhase = ''
+                cp -r output $out
+              '';
+            };
+            html-validate = html-validate;
+            pelican-jinja2content = jinja2content;
+          };
+
+          apps.default = {
+            type = "app";
+            program = "${devScript}/bin/pelican-serve";
+          };
+
+          devShells.default = pkgs.mkShell {
+            packages = [
+              pythonEnv
+              pkgs.djlint
+              pkgs.markdownlint-cli
+              pkgs.lychee
+              html-validate
+              pkgs.stylelint
+            ];
+            shellHook = ''
+              echo "Pelican dev environment"
+              echo "  nix run             # autoreload dev server (port 8000)"
+              echo "  pelican content     # build to output/"
+            '';
+          };
         };
-      }
-    );
+    };
 }
