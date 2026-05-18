@@ -3,7 +3,8 @@ CURRENT_YEAR = datetime.now().year
 
 AUTHOR = 'Thane Gill'
 SITENAME = 'Thane Gill'
-SITEURL = ''
+SITEURL = 'https://www.thanegill.com'
+RELATIVE_URLS = True
 
 PATH = 'content'
 ARTICLE_PATHS = ['articles']
@@ -35,3 +36,5 @@ PAGE_URL = '{slug}/'
 PAGE_SAVE_AS = '{slug}/index.html'
 
 STATIC_PATHS = ['images']
+
+DELETE_OUTPUT_DIRECTORY = True

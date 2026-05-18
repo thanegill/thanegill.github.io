@@ -2,14 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Branches
-
-- **`pelican-site`** — Pelican site (current production, worktree at `../thanegill.github.io-pelican`)
-- **`master`** — GitHub Pages output (auto-generated, do not edit)
-
 ---
 
-## Pelican site (`pelican-site` branch)
+## Pelican site
 
 ### Commands
 

@@ -29,7 +29,7 @@
           nativeBuildInputs = [ pelican markdown ];
           buildPhase = ''
             export PYTHONPATH=$PWD:$PYTHONPATH
-            pelican content -o output -s publishconf.py
+            pelican content -o output -s pelicanconf.py
           '';
           installPhase = ''
             cp -r output $out
