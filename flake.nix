@@ -45,7 +45,7 @@
               touch $out
             '';
 
-            lychee = pkgs.runCommand "lychee" { nativeBuildInputs = [ pkgs.lychee ]; } ''
+            lychee = pkgs.runCommand "lychee" { nativeBuildInputs = [ pkgs.lychee pkgs.cacert ]; } ''
               lychee --config ${self}/linters-config/lychee.toml --root-dir ${config.packages.default} ${config.packages.default}/**/*.html
               touch $out
             '';
