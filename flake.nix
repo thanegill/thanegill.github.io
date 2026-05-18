@@ -6,14 +6,25 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
         python = pkgs.python3;
         jinja2content = python.pkgs.callPackage ./nix/pelican-jinja2content { };
         html-validate = pkgs.callPackage ./nix/html-validate { };
-        pythonEnv = python.withPackages (ps: [ ps.pelican ps.markdown ps.livereload jinja2content ]);
+        pythonEnv = python.withPackages (ps: [
+          ps.pelican
+          ps.markdown
+          ps.livereload
+          jinja2content
+        ]);
 
         site = pkgs.stdenv.mkDerivation {
           name = "thanegill-github-io";
@@ -35,38 +46,35 @@
             exec pelican --autoreload --listen "$@"
           '';
         };
-      in {
-        checks.html-validate = pkgs.runCommand "html-validate" {
-          nativeBuildInputs = [ html-validate ];
-        } ''
-          html-validate --config ${self}/linters/htmlvalidate.json ${site}/**/*.html
-          touch $out
-        '';
+      in
+      {
+        checks = {
+          html-validate = pkgs.runCommand "html-validate" { nativeBuildInputs = [ html-validate ]; } ''
+            html-validate --config ${self}/linters/htmlvalidate.json ${site}/**/*.html
+            touch $out
+          '';
 
-        checks.lychee = pkgs.runCommand "lychee" {
-          nativeBuildInputs = [ pkgs.lychee ];
-        } ''
-          lychee --config ${self}/linters/lychee.toml --root-dir ${site} ${site}/**/*.html
-          touch $out
-        '';
+          lychee = pkgs.runCommand "lychee" { nativeBuildInputs = [ pkgs.lychee ]; } ''
+            lychee --config ${self}/linters/lychee.toml --root-dir ${site} ${site}/**/*.html
+            touch $out
+          '';
 
-        checks.djlint = pkgs.runCommand "djlint" {
-          nativeBuildInputs = [ pkgs.djlint ];
-        } ''
-          djlint --configuration ${self}/linters/djlintrc ${self}/themes/clean-blog/templates --lint
-          touch $out
-        '';
+          djlint = pkgs.runCommand "djlint" { nativeBuildInputs = [ pkgs.djlint ]; } ''
+            djlint --configuration ${self}/linters/djlintrc ${self}/themes/clean-blog/templates --lint
+            touch $out
+          '';
 
-        checks.markdownlint = pkgs.runCommand "markdownlint" {
-          nativeBuildInputs = [ pkgs.markdownlint-cli ];
-        } ''
-          markdownlint --config ${self}/linters/markdownlint.json ${self}/content
-          touch $out
-        '';
+          markdownlint = pkgs.runCommand "markdownlint" { nativeBuildInputs = [ pkgs.markdownlint-cli ]; } ''
+            markdownlint --config ${self}/linters/markdownlint.json ${self}/content
+            touch $out
+          '';
+        };
 
-        packages.html-validate = html-validate;
-        packages.pelican-jinja2content = jinja2content;
-        packages.default = site;
+        packages = {
+          default = site;
+          html-validate = html-validate;
+          pelican-jinja2content = jinja2content;
+        };
 
         apps.default = {
           type = "app";
@@ -74,12 +82,20 @@
         };
 
         devShells.default = pkgs.mkShell {
-          packages = [ pythonEnv pkgs.djlint pkgs.markdownlint-cli pkgs.lychee html-validate pkgs.stylelint ];
+          packages = [
+            pythonEnv
+            pkgs.djlint
+            pkgs.markdownlint-cli
+            pkgs.lychee
+            html-validate
+            pkgs.stylelint
+          ];
           shellHook = ''
             echo "Pelican dev environment"
             echo "  nix run             # autoreload dev server (port 8000)"
             echo "  pelican content     # build to output/"
           '';
         };
-      });
+      }
+    );
 }
