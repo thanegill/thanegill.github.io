@@ -1,0 +1,4 @@
+{
+  "profile": "jinja",
+  "ignore": "H023,H031"
+}
