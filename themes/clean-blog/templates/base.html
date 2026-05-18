@@ -9,13 +9,13 @@
   <meta name="author" content="{{ AUTHOR }}"/>
   <link href="{{ SITEURL }}/feeds/all.atom.xml" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet" type="text/css"/>
-  <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
-  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
-  <title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+  <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
   <link href="{{ SITEURL }}/theme/css/bootstrap.css" rel="stylesheet" type="text/css"/>
   <link href="{{ SITEURL }}/theme/css/clean-blog.css" rel="stylesheet" type="text/css"/>
   <link href="{{ SITEURL }}/theme/css/pygments.css" rel="stylesheet" type="text/css"/>
-  {% block extra_head %}{% endblock %}
+  {% block extra_head %}{% endblock extra_head %}
 </head>
 <body>
 
@@ -41,9 +41,9 @@
     </div>
   </nav>
 
-  {% block header %}{% endblock %}
+  {% block header %}{% endblock header %}
 
-  {% block content %}{% endblock %}
+  {% block content %}{% endblock content %}
 
   <hr id="page_footer"/>
   <footer>

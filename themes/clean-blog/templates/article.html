@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ article.title }} &ndash; {{ SITENAME }}{% endblock %}
+{% block title %}{{ article.title }} &ndash; {{ SITENAME }}{% endblock title %}
 
 {% block header %}
 <header class="intro-header" style="background-image: url('{{ SITEURL }}/theme/images/default.jpg')">
@@ -18,7 +18,7 @@
     </div>
   </div>
 </header>
-{% endblock %}
+{% endblock header %}
 
 {% block content %}
 <article>
@@ -37,4 +37,4 @@
     </div>
   </div>
 </article>
-{% endblock %}
+{% endblock content %}
