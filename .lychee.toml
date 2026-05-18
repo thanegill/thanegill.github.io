@@ -1,0 +1,2 @@
+# Only check internal links in the Nix sandbox (no network access)
+offline = true

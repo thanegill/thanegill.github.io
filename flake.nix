@@ -12,7 +12,21 @@
         pkgs = nixpkgs.legacyPackages.${system};
         python = pkgs.python3;
         jinja2content = python.pkgs.callPackage ./nix/pelican-jinja2content { };
+        html-validate = pkgs.callPackage ./nix/html-validate { };
         pythonEnv = python.withPackages (ps: [ ps.pelican ps.markdown ps.livereload jinja2content ]);
+
+        site = pkgs.stdenv.mkDerivation {
+          name = "thanegill-github-io";
+          src = ./.;
+          nativeBuildInputs = [ pythonEnv ];
+          buildPhase = ''
+            export PYTHONPATH=$PWD:$PYTHONPATH
+            pelican content -o output -s pelicanconf.py
+          '';
+          installPhase = ''
+            cp -r output $out
+          '';
+        };
 
         devScript = pkgs.writeShellApplication {
           name = "pelican-serve";
@@ -22,6 +36,20 @@
           '';
         };
       in {
+        checks.html-validate = pkgs.runCommand "html-validate" {
+          nativeBuildInputs = [ html-validate ];
+        } ''
+          html-validate --config ${self}/.htmlvalidate.json ${site}/**/*.html
+          touch $out
+        '';
+
+        checks.lychee = pkgs.runCommand "lychee" {
+          nativeBuildInputs = [ pkgs.lychee ];
+        } ''
+          lychee --config ${self}/.lychee.toml --root-dir ${site} ${site}/**/*.html
+          touch $out
+        '';
+
         checks.djlint = pkgs.runCommand "djlint" {
           nativeBuildInputs = [ pkgs.djlint ];
         } ''
@@ -36,19 +64,9 @@
           touch $out
         '';
 
+        packages.html-validate = html-validate;
         packages.pelican-jinja2content = jinja2content;
-        packages.default = pkgs.stdenv.mkDerivation {
-          name = "thanegill-github-io";
-          src = ./.;
-          nativeBuildInputs = [ pythonEnv ];
-          buildPhase = ''
-            export PYTHONPATH=$PWD:$PYTHONPATH
-            pelican content -o output -s pelicanconf.py
-          '';
-          installPhase = ''
-            cp -r output $out
-          '';
-        };
+        packages.default = site;
 
         apps.default = {
           type = "app";
@@ -56,7 +74,7 @@
         };
 
         devShells.default = pkgs.mkShell {
-          packages = [ pythonEnv pkgs.djlint pkgs.markdownlint-cli ];
+          packages = [ pythonEnv pkgs.djlint pkgs.markdownlint-cli pkgs.lychee html-validate pkgs.stylelint ];
           shellHook = ''
             echo "Pelican dev environment"
             echo "  nix run             # autoreload dev server (port 8000)"
