@@ -41,22 +41,22 @@
         {
           checks = {
             html-validate = pkgs.runCommand "html-validate" { nativeBuildInputs = [ html-validate ]; } ''
-              html-validate --config ${self}/linters/htmlvalidate.json ${config.packages.default}/**/*.html
+              html-validate --config ${self}/linters-config/htmlvalidate.json ${config.packages.default}/**/*.html
               touch $out
             '';
 
             lychee = pkgs.runCommand "lychee" { nativeBuildInputs = [ pkgs.lychee ]; } ''
-              lychee --config ${self}/linters/lychee.toml --root-dir ${config.packages.default} ${config.packages.default}/**/*.html
+              lychee --config ${self}/linters-config/lychee.toml --root-dir ${config.packages.default} ${config.packages.default}/**/*.html
               touch $out
             '';
 
             djlint = pkgs.runCommand "djlint" { nativeBuildInputs = [ pkgs.djlint ]; } ''
-              djlint --configuration ${self}/linters/djlintrc ${self}/themes/clean-blog/templates --lint
+              djlint --configuration ${self}/linters-config/djlintrc ${self}/themes/clean-blog/templates --lint
               touch $out
             '';
 
             markdownlint = pkgs.runCommand "markdownlint" { nativeBuildInputs = [ pkgs.markdownlint-cli ]; } ''
-              markdownlint --config ${self}/linters/markdownlint.json ${self}/content
+              markdownlint --config ${self}/linters-config/markdownlint.json ${self}/content
               touch $out
             '';
           };
