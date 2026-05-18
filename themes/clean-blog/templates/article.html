@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} &ndash; {{ SITENAME }}{% endblock %}
+
+{% block header %}
+<header class="intro-header" style="background-image: url('{{ SITEURL }}/theme/images/default.jpg')">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>{{ article.title }}</h1>
+          {% if article.subtitle %}
+          <h2 class="subheading">{{ article.subtitle }}</h2>
+          {% endif %}
+          <span class="meta">{{ article.date.strftime('%B %-d, %Y') }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<article>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        {{ article.content }}
+        {% if article.tags %}
+        <p>Tags:
+          {% for tag in article.tags %}
+          <a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</article>
+{% endblock %}

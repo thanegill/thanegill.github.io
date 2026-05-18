@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Tag: {{ tag }} &ndash; {{ SITENAME }}{% endblock %}
+
+{% block header %}
+<header class="intro-header" style="background-image: url('{{ SITEURL }}/theme/images/default.jpg')">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="site-heading">
+          <h1>Tag: {{ tag }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      {% for article in articles %}
+      <div class="post-preview">
+        <a href="{{ SITEURL }}/{{ article.url }}">
+          <h2 class="post-title">{{ article.title }}</h2>
+        </a>
+        <p class="post-meta">{{ article.date.strftime('%B %-d, %Y') }}</p>
+      </div>
+      <hr/>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

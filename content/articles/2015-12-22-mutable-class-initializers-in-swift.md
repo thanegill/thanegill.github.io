@@ -1,15 +1,13 @@
----
-title: Mutable Class Initializers in Swift
-subtitle:
-date: 2015-12-22 02:40 PST
-tags:
----
+----
+Title: Mutable Class Initializers in Swift
+Date: 2015-12-22
+Slug: mutable-class-initializers-in-swift
+Tags:
+----
 
 How many times have you wanted mutate self in the initializer? Apparently it's
 totally possible in swift, just not an enabled feature. It's on Apples
-[radar](rdar://23224354) and Chris Lattner has acknowledged it:
-
-<%= twitter_oembed('657287462876659712') %>
+[radar](rdar://23224354) and Chris Lattner has acknowledged it.
 
 Submitting this as a proposal on the Swift evolution mailing list still yet to
 be done. Let me know if you'd like to help write up a proposal.
@@ -69,4 +67,3 @@ This also fixes my displease with dependency injection and removes the need for
 forced unwrapped optionals! 🎉 You can now just initialize your new VC passing it
 the current storyboard and push to it with your navigation controller. Much
 simpler and easier to read!
-
