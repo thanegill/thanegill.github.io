@@ -26,19 +26,6 @@
           jinja2content
         ]);
 
-        site = pkgs.stdenv.mkDerivation {
-          name = "thanegill-github-io";
-          src = ./.;
-          nativeBuildInputs = [ pythonEnv ];
-          buildPhase = ''
-            export PYTHONPATH=$PWD:$PYTHONPATH
-            pelican content -o output -s pelicanconf.py
-          '';
-          installPhase = ''
-            cp -r output $out
-          '';
-        };
-
         devScript = pkgs.writeShellApplication {
           name = "pelican-serve";
           runtimeInputs = [ pythonEnv ];
@@ -49,15 +36,21 @@
       in
       {
         checks = {
-          html-validate = pkgs.runCommand "html-validate" { nativeBuildInputs = [ html-validate ]; } ''
-            html-validate --config ${self}/linters/htmlvalidate.json ${site}/**/*.html
-            touch $out
-          '';
+          html-validate =
+            pkgs.runCommand "html-validate"
+              { nativeBuildInputs = [ html-validate ]; }
+              ''
+                html-validate --config ${self}/linters/htmlvalidate.json ${self.packages.${system}.default}/**/*.html
+                touch $out
+              '';
 
-          lychee = pkgs.runCommand "lychee" { nativeBuildInputs = [ pkgs.lychee ]; } ''
-            lychee --config ${self}/linters/lychee.toml --root-dir ${site} ${site}/**/*.html
-            touch $out
-          '';
+          lychee =
+            pkgs.runCommand "lychee"
+              { nativeBuildInputs = [ pkgs.lychee ]; }
+              ''
+                lychee --config ${self}/linters/lychee.toml --root-dir ${self.packages.${system}.default} ${self.packages.${system}.default}/**/*.html
+                touch $out
+              '';
 
           djlint = pkgs.runCommand "djlint" { nativeBuildInputs = [ pkgs.djlint ]; } ''
             djlint --configuration ${self}/linters/djlintrc ${self}/themes/clean-blog/templates --lint
@@ -71,7 +64,18 @@
         };
 
         packages = {
-          default = site;
+          default = pkgs.stdenv.mkDerivation {
+            name = "thanegill-github-io";
+            src = ./.;
+            nativeBuildInputs = [ pythonEnv ];
+            buildPhase = ''
+              export PYTHONPATH=$PWD:$PYTHONPATH
+              pelican content -o output -s pelicanconf.py
+            '';
+            installPhase = ''
+              cp -r output $out
+            '';
+          };
           html-validate = html-validate;
           pelican-jinja2content = jinja2content;
         };
