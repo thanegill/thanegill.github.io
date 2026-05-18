@@ -11,13 +11,11 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         python = pkgs.python3;
-        pelican = python.pkgs.pelican;
-        markdown = python.pkgs.markdown;
-        livereload = python.pkgs.livereload;
+        pythonEnv = python.withPackages (ps: [ ps.pelican ps.markdown ps.livereload ]);
 
         devScript = pkgs.writeShellApplication {
           name = "pelican-serve";
-          runtimeInputs = [ pelican markdown livereload ];
+          runtimeInputs = [ pythonEnv ];
           text = ''
             exec pelican --autoreload --listen "$@"
           '';
@@ -26,7 +24,7 @@
         packages.default = pkgs.stdenv.mkDerivation {
           name = "thanegill-github-io";
           src = ./.;
-          nativeBuildInputs = [ pelican markdown ];
+          nativeBuildInputs = [ pythonEnv ];
           buildPhase = ''
             export PYTHONPATH=$PWD:$PYTHONPATH
             pelican content -o output -s pelicanconf.py
@@ -42,7 +40,7 @@
         };
 
         devShells.default = pkgs.mkShell {
-          packages = [ pelican markdown livereload ];
+          packages = [ pythonEnv ];
           shellHook = ''
             echo "Pelican dev environment"
             echo "  nix run             # autoreload dev server (port 8000)"
