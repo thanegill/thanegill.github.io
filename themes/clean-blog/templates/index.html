@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block header %}
-<header class="intro-header" style="background-image: url('{{ SITEURL }}/theme/images/default.jpg')">
+<header class="intro-header">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -29,7 +29,7 @@
         <p class="post-meta">{{ article.date.strftime('%B %-d, %Y') }}</p>
         {{ article.content }}
       </div>
-      <hr/>
+      <hr>
       {% endfor %}
 
       {% if articles_page.has_other_pages() %}
