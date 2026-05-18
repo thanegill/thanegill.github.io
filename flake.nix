@@ -20,7 +20,7 @@
         { config, pkgs, ... }:
         let
           python = pkgs.python3;
-          jinja2content = python.pkgs.callPackage ./nix/pelican-jinja2content { };
+          jinja2content = python.pkgs.callPackage ./nix/jinja2content { };
           html-validate = pkgs.callPackage ./nix/html-validate { };
           pythonEnv = python.withPackages (ps: with ps; [
             pelican
@@ -74,7 +74,7 @@
               '';
             };
             html-validate = html-validate;
-            pelican-jinja2content = jinja2content;
+            inherit jinja2content;
           };
 
           apps.default = {

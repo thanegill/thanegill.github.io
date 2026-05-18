@@ -5,7 +5,7 @@
 }:
 
 buildPythonPackage rec {
-  pname = "pelican-jinja2content";
+  pname = "jinja2content";
   version = "1.0.1";
   pyproject = true;
 
