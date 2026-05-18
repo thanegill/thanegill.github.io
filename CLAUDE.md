@@ -31,10 +31,10 @@ pelican content                   # Build to output/ (within nix develop)
 - `apps.default` — `nix run` launches `pelican --autoreload --listen`
 - `devShells.default` — shell with pelican, markdown, livereload, and all linters
 - `checks.*` — five lint/validation checks run by `nix flake check`:
-  - `html-validate` — validates built HTML against `html-validate:recommended` (`.htmlvalidate.json`)
-  - `lychee` — checks links in built HTML; offline mode only (`.lychee.toml`); `--root-dir` set to the site store path
-  - `djlint` — lints Jinja2 templates in `themes/clean-blog/templates/` (`.djlintrc`)
-  - `markdownlint` — lints Markdown in `content/` (`.markdownlint.json`)
-  - `stylelint` — placeholder; all CSS is third-party so no rules are enforced (`.stylelintrc.json`)
+  - `html-validate` — validates built HTML against `html-validate:recommended` (`linters/htmlvalidate.json`)
+  - `lychee` — checks links in built HTML; offline mode only (`linters/lychee.toml`); `--root-dir` set to the site store path
+  - `djlint` — lints Jinja2 templates in `themes/clean-blog/templates/` (`linters/djlintrc`)
+  - `markdownlint` — lints Markdown in `content/` (`linters/markdownlint.json`)
+  - `stylelint` — placeholder; all CSS is third-party so no rules are enforced (`linters/stylelintrc.json`)
 
 The `buildPhase` sets `PYTHONPATH=$PWD` so Pelican can import `pelicanconf.py` inside the Nix sandbox.

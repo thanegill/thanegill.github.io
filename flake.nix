@@ -39,28 +39,28 @@
         checks.html-validate = pkgs.runCommand "html-validate" {
           nativeBuildInputs = [ html-validate ];
         } ''
-          html-validate --config ${self}/.htmlvalidate.json ${site}/**/*.html
+          html-validate --config ${self}/linters/htmlvalidate.json ${site}/**/*.html
           touch $out
         '';
 
         checks.lychee = pkgs.runCommand "lychee" {
           nativeBuildInputs = [ pkgs.lychee ];
         } ''
-          lychee --config ${self}/.lychee.toml --root-dir ${site} ${site}/**/*.html
+          lychee --config ${self}/linters/lychee.toml --root-dir ${site} ${site}/**/*.html
           touch $out
         '';
 
         checks.djlint = pkgs.runCommand "djlint" {
           nativeBuildInputs = [ pkgs.djlint ];
         } ''
-          cd ${self} && djlint themes/clean-blog/templates --lint
+          djlint --configuration ${self}/linters/djlintrc ${self}/themes/clean-blog/templates --lint
           touch $out
         '';
 
         checks.markdownlint = pkgs.runCommand "markdownlint" {
           nativeBuildInputs = [ pkgs.markdownlint-cli ];
         } ''
-          markdownlint --config ${self}/.markdownlint.json ${self}/content
+          markdownlint --config ${self}/linters/markdownlint.json ${self}/content
           touch $out
         '';
 
