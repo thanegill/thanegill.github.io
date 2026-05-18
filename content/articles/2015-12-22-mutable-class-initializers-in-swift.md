@@ -1,9 +1,9 @@
-----
+---
 Title: Mutable Class Initializers in Swift
 Date: 2015-12-22
 Slug: mutable-class-initializers-in-swift
 Tags:
-----
+---
 
 How many times have you wanted mutate self in the initializer? Apparently it's
 totally possible in swift, just not an enabled feature. It's on Apples

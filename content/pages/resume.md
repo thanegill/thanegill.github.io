@@ -1,5 +1,7 @@
+---
 Title: Résumé
 Slug: resume
+---
 
 TODO: resume inline
 
