@@ -67,7 +67,6 @@
               src = ./.;
               nativeBuildInputs = [ pythonEnv ];
               buildPhase = ''
-                export PYTHONPATH=$PWD:$PYTHONPATH
                 pelican content -o output -s pelicanconf.py
               '';
               installPhase = ''
