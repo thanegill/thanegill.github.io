@@ -11,7 +11,8 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         python = pkgs.python3;
-        pythonEnv = python.withPackages (ps: [ ps.pelican ps.markdown ps.livereload ]);
+        jinja2content = python.pkgs.callPackage ./nix/pelican-jinja2content { };
+        pythonEnv = python.withPackages (ps: [ ps.pelican ps.markdown ps.livereload jinja2content ]);
 
         devScript = pkgs.writeShellApplication {
           name = "pelican-serve";
@@ -21,6 +22,7 @@
           '';
         };
       in {
+        packages.pelican-jinja2content = jinja2content;
         packages.default = pkgs.stdenv.mkDerivation {
           name = "thanegill-github-io";
           src = ./.;

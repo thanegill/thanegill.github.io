@@ -23,9 +23,18 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Social
-TWITTER_USERNAME = 'thanegill'
+MASTODON_USERNAME = '@thanegill@mastodon.social'
+_masto_user, _masto_instance = MASTODON_USERNAME.lstrip('@').split('@')
+MASTODON_URL = f'https://{_masto_instance}/@{_masto_user}'
 GITHUB_USERNAME = 'thanegill'
 EMAIL_ADDRESS = 'me@thanegill.com'
+
+JINJA_GLOBALS = {
+    'MASTODON_URL': MASTODON_URL,
+    'MASTODON_USERNAME': MASTODON_USERNAME,
+}
+
+PLUGINS = ['jinja2content']
 
 DEFAULT_PAGINATION = 10
 
@@ -35,6 +44,6 @@ ARTICLE_SAVE_AS = 'blog/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
 PAGE_URL = '{slug}/'
 PAGE_SAVE_AS = '{slug}/index.html'
 
-STATIC_PATHS = ['images']
+STATIC_PATHS = []
 
 DELETE_OUTPUT_DIRECTORY = True
